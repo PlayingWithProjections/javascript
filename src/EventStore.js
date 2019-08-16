@@ -2,13 +2,14 @@ const fs = require('fs');
 
 module.exports = function(streamName) {
   const subscribe = (projection) => {
-
+    console.log('reading stream...')
     let text = fs.readFileSync(`../data/${streamName}.json`);
-    console.log('read all!')
+
+    console.log('parsing stream...')
     let parsed = JSON.parse(text);
-    console.log('parsed all!')
-    parsed
-      .forEach(projection);
+
+    console.log('running projection...')
+    parsed.forEach(projection);
   };
 
   return {

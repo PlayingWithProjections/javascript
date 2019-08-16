@@ -10,7 +10,9 @@ const CountEvents = function () {
 };
 
 let projector = new CountEvents();
+
 new EventStore('7_2015_01_2017_01').subscribe(projector.projection);
+
 console.log('number of events:', projector.result());
 
 
