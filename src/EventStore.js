@@ -1,19 +1,17 @@
 const fs = require('fs');
 
-module.exports = function(streamName) {
-  const subscribe = (projection) => {
-    console.log('reading stream...')
-    let text = fs.readFileSync(`../data/${streamName}.json`);
+module.exports = function (filePath) {
+  const replay = (projection) => {
+    console.log(`reading events from ${filePath} ...`)
+    let text = fs.readFileSync(filePath);
 
-    console.log('parsing stream...')
-    let parsed = JSON.parse(text);
+    console.log('parsing events...');
+    let events = JSON.parse(text);
 
-    console.log('running projection...')
-    parsed.forEach(projection);
+    console.log('replaying events...');
+    events.forEach(projection);
   };
 
-  return {
-    subscribe
-  }
-}
+  return {replay}
+};
 
