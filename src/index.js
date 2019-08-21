@@ -13,6 +13,6 @@ const CountEvents = function () {
 
 let projector = new CountEvents();
 
-new EventStore(getFileName()).replay(projector.projection);
+new EventStore(projector.projection).replay(getFileName());
 
 console.log('number of events:', projector.result());
