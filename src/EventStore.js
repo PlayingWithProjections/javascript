@@ -1,7 +1,9 @@
 const fs = require('fs');
 
 module.exports = function (...projections) {
-  const replay = (filePath) => {
+  const mapTimestamp = event => ({...event, timestamp: new Date(event.timestamp)});
+
+  const replay = filePath => {
     console.log(`reading events from ${filePath} ...`);
     let text = fs.readFileSync(filePath);
 
@@ -9,9 +11,11 @@ module.exports = function (...projections) {
     let events = JSON.parse(text);
 
     console.log('replaying events...');
-    events.forEach(e =>
-      projections.forEach(projection => projection(e))
-    );
+    events
+      .map(mapTimestamp)
+      .forEach(e =>
+        projections.forEach(projection => projection(e))
+      );
   };
 
   return {replay}
