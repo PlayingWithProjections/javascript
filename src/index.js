@@ -3,8 +3,8 @@ const EventStore = require('./EventStore');
 const CountEvents = function () {
   let counter = 0;
   return {
-    projection: e => counter++,
-    result: () => {return counter }
+    projection: _ => counter++,
+    result: () => { return counter }
   }
 };
 
