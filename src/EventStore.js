@@ -1,27 +1,24 @@
 const StreamArray = require('stream-json/streamers/StreamArray');
 const fs = require('fs');
 
-module.exports = function (...projections) {
+function EventStore(...projections) {
   const mapTimestamp = event => ({...event, timestamp: new Date(event.timestamp)});
 
+  const project = event => projections.forEach(projection => projection(event));
+
   const replay = (filePath, callback) => {
-
-    const jsonStream = StreamArray.withParser();
-
-    jsonStream.on('data', data => {
-      let eventWithTimestamp = mapTimestamp(data.value);
-      projections.forEach(projection => projection(eventWithTimestamp))
-    });
-    jsonStream.on('end', () => {
-      callback();
-    });
+    const jsonStream = StreamArray.withParser()
+      .on('data', data => {
+        project(mapTimestamp(data.value));
+      })
+      .on('end', () => {
+        callback();
+      });
 
     console.log(`reading events from ${filePath} ...`);
     fs.createReadStream(filePath).pipe(jsonStream.input);
   };
-
   return {replay}
-};
+}
 
-
-
+module.exports = EventStore;
