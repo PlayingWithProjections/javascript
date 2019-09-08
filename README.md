@@ -1,4 +1,4 @@
-# Playing with Projections
+# Playing with Projections in JavaScript
 ## Setup
 `npm install`
 
