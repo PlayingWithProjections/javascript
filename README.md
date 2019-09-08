@@ -1,3 +1,6 @@
-# javascript
+# Playing with Projections
+## Setup
+npm install
 
-run: `node src/index.js` in the root directory, to find the data directory correctly.
+## Run projections
+`node src/index.js ../data/basic.json` from the root directory
